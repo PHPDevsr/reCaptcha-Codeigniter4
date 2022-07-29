@@ -126,7 +126,13 @@ if (isset($response['success']) and $response['success'] === true) {
 }
 ```
 
-# Contributor
+# License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+# Contrib
+
+We does accept and encourage contributions from the community in any shape. It doesn't matter whether you can code, write documentation, or help find bugs, all contributions are welcome.
 
 <a href="https://github.com/PHPDevsr/reCaptcha-Codeigniter4/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=PHPDevsr/reCaptcha-Codeigniter4" />
