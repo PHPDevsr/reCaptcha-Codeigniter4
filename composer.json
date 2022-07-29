@@ -1,0 +1,66 @@
+{
+    "name": "phpdevsr/recaptcha-codeigniter4",
+    "description": "Free to Use Library reCAPTCHA v2 for Codeigniter 4",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "codeigniter",
+        "codeigniter4",
+        "recaptcha",
+        "google-recaptcha"
+    ],
+    "authors": [
+        {
+            "name": "Denny Septian Panggabean",
+            "email": "xamidimura@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/PHPDevsr/reCaptcha-Codeigniter4",
+    "require": {
+        "php": "^7.4.3 || ^8.0"
+    },
+    "require-dev": {
+        "codeigniter4/devkit": "^1.0",
+        "codeigniter4/framework": "^4.2",
+        "rector/rector": "^0.13.9"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "PHPDevsr\\Recaptcha\\": "src"
+        },
+        "exclude-from-classmap": [
+            "**/Database/Migrations/**"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests",
+            "Tests\\Support\\": "tests/_support"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true,
+            "composer/package-versions-deprecated": true
+        }
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "bash admin/setup.sh"
+        ],
+        "analyze": "phpstan analyze",
+        "ci": [
+            "Composer\\Config::disableProcessTimeout",
+            "@analyze",
+            "@test",
+            "@style"
+        ],
+        "cs-fix": "@style",
+        "style": "php-cs-fixer fix --verbose --ansi --using-cache=no",
+        "rector": "vendor/bin/rector process src --dry-run",
+        "test": "phpunit"
+    }
+}
