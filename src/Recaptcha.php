@@ -38,7 +38,7 @@ class Recaptcha
      */
     protected function _submitHTTPGet(array $data = [])
     {
-        $url = count($data) > 0 ? self::site_verify_url . '?' . http_build_query($data) : self::site_verify_url;
+        $url = $data !== [] ? self::site_verify_url . '?' . http_build_query($data) : self::site_verify_url;
 
         if (ini_get('allow_url_fopen')) {
             return file_get_contents($url);
@@ -94,12 +94,12 @@ class Recaptcha
             $status = true;
         } else {
             $status = false;
-            $error  = (isset($responses['error-codes'])) ? $responses['error-codes'] : 'invalid-input-response';
+            $error  = $responses['error-codes'] ?? 'invalid-input-response';
         }
 
         return [
             'success'     => $status,
-            'error-codes' => (isset($error)) ? $error : null,
+            'error-codes' => $error ?? null,
         ];
     }
 
@@ -120,7 +120,7 @@ class Recaptcha
             'hl'     => $this->config->recaptchaLang,
         ];
 
-        $result = count($parameters) > 0 ? array_merge($default, $parameters) : $default;
+        $result = $parameters !== [] ? array_merge($default, $parameters) : $default;
 
         return sprintf(
             '<script type="text/javascript" src="%s?%s" defer></script>',
@@ -146,7 +146,7 @@ class Recaptcha
             'data-size'    => 'normal',
         ];
 
-        $result        = count($parameters) > 0 ? array_merge($default, $parameters) : $default;
+        $result        = $parameters !== [] ? array_merge($default, $parameters) : $default;
         $countedResult = count($result);
 
         $html        = '';
