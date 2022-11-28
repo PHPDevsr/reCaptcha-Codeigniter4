@@ -1,6 +1,9 @@
 <?php
 
+namespace Tests;
+
 use CodeIgniter\Test\CIUnitTestCase;
+use Exception;
 use PHPDevsr\Recaptcha\Config\Recaptcha as RecaptchaConfig;
 use PHPDevsr\Recaptcha\Recaptcha;
 
@@ -14,7 +17,7 @@ final class RecaptchaTest extends CIUnitTestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('To use reCAPTCHA you must get an API key from https://www.google.com/recaptcha/admin');
 
-        $recaptcha = new Recaptcha();
+        new Recaptcha();
     }
 
     public function testGetScriptTagDefault()
