@@ -19,10 +19,12 @@ class Recaptcha
 
     protected RecaptchaConfig $config;
 
-    public function __construct(RecaptchaConfig $config)
+    public function __construct(?RecaptchaConfig $config = null)
     {
         // Set Config
-        $this->config = $config;
+        if (null !== $config) {
+            $this->config = $config;
+        }
 
         if (empty($this->config->recaptchaSiteKey) || empty($this->config->recaptchaSecretKey)) {
             throw new Exception('To use reCAPTCHA you must get an API key from ' . self::sign_up_url);
@@ -35,6 +37,8 @@ class Recaptcha
      * @param array $data Data
      *
      * @return bool|string
+     *
+     * @codeCoverageIgnore
      */
     protected function _submitHTTPGet(array $data = [])
     {
