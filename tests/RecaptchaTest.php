@@ -9,6 +9,14 @@ use PHPDevsr\Recaptcha\Recaptcha;
  */
 final class RecaptchaTest extends CIUnitTestCase
 {
+    public function testExceptionAPIKey()
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('To use reCAPTCHA you must get an API key from https://www.google.com/recaptcha/admin');
+
+        $recaptcha = new Recaptcha();
+    }
+
     public function testGetScriptTagDefault()
     {
         $expected = '<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=onload&hl=id" defer></script>';
