@@ -18,27 +18,23 @@
     ],
     "homepage": "https://github.com/PHPDevsr/reCaptcha-Codeigniter4",
     "require": {
-        "php": "^7.4.3 || ^8.0"
+        "php": "^7.4 || ^8.0"
     },
     "require-dev": {
         "codeigniter4/devkit": "^1.0",
         "codeigniter4/framework": "^4.2",
-        "rector/rector": "^0.13.9 || ^0.14.0"
+        "rector/rector": "^0.14.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "PHPDevsr\\Recaptcha\\": "src"
-        },
-        "exclude-from-classmap": [
-            "**/Database/Migrations/**"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests",
-            "Tests\\Support\\": "tests/_support"
+            "Tests\\": "tests"
         }
     },
     "config": {
@@ -51,16 +47,20 @@
         "post-update-cmd": [
             "bash admin/setup.sh"
         ],
-        "analyze": "phpstan analyze",
-        "ci": [
+        "reci": [
             "Composer\\Config::disableProcessTimeout",
+            "@cs",
             "@analyze",
-            "@test",
-            "@style"
+            "@test"
         ],
-        "cs-fix": "@style",
-        "style": "php-cs-fixer fix --verbose --ansi --using-cache=no",
+        "analyze": [
+            "@phpstan",
+            "@rector"
+        ],
+        "cs-fix": "php-cs-fixer fix --ansi --verbose --diff --using-cache=no",
+        "cs": "php-cs-fixer fix --ansi --verbose --dry-run --diff --using-cache=no",
         "rector": "vendor/bin/rector process src --dry-run",
+        "phpstan": "bash -c \"XDEBUG_MODE=off phpstan analyse\"",
         "test": "phpunit"
     }
 }
