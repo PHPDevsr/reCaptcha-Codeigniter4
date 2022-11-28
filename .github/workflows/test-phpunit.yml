@@ -3,20 +3,20 @@ name: PHPUnit
 on:
   pull_request:
     branches:
-      - develop
+      - dev
     paths:
       - '**.php'
       - 'composer.*'
       - 'phpunit*'
-      - '.github/workflows/phpunit.yml'
+      - '.github/workflows/test-phpunit.yml'
   push:
     branches:
-      - develop
+      - dev
     paths:
       - '**.php'
       - 'composer.*'
       - 'phpunit*'
-      - '.github/workflows/phpunit.yml'
+      - '.github/workflows/test-phpunit.yml'
 
 jobs:
   main:
@@ -31,12 +31,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set up PHP
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           tools: composer, phive, phpunit
-          extensions: intl, json, mbstring, gd, xdebug, xml, sqlite3
+          extensions: intl, json, mbstring, gd, xdebug, xml
           coverage: xdebug
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -52,7 +52,7 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
           if [ -f composer.lock ]; then
             composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader

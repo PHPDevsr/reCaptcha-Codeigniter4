@@ -1,22 +1,26 @@
-name: PHPCSFixer
+name: Rector
 
 on:
   pull_request:
     branches:
-      - develop
+      - dev
     paths:
       - '**.php'
-      - '.github/workflows/phpcsfixer.yml'
+      - 'composer.*'
+      - 'rector.php'
+      - '.github/workflows/test-rector.yml'
   push:
     branches:
-      - develop
+      - dev
     paths:
       - '**.php'
-      - '.github/workflows/phpcsfixer.yml'
+      - 'composer.*'
+      - 'rector.php'
+      - '.github/workflows/test-rector.yml'
 
 jobs:
   build:
-    name: PHP ${{ matrix.php-versions }} Coding Standards
+    name: PHP ${{ matrix.php-versions }} Rector Analysis
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
     strategy:
@@ -28,11 +32,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set up PHP
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: json, tokenizer
+          tools: phpstan
+          extensions: intl, json, mbstring, xml
           coverage: none
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -48,7 +53,7 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
           if [ -f composer.lock ]; then
             composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
@@ -56,5 +61,5 @@ jobs:
             composer update --no-progress --no-interaction --prefer-dist --optimize-autoloader
           fi
 
-      - name: Check code for standards compliance
-        run: vendor/bin/php-cs-fixer fix --verbose --ansi --dry-run --using-cache=no --diff
+      - name: Analyze for refactoring
+        run: rector process --dry-run --no-progress-bar

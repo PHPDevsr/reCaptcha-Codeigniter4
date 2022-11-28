@@ -1,26 +1,26 @@
-name: Rector
+name: PHPStan
 
 on:
   pull_request:
     branches:
-      - develop
+      - dev
     paths:
       - '**.php'
       - 'composer.*'
-      - 'rector.php'
-      - '.github/workflows/rector.yml'
+      - 'phpstan*'
+      - '.github/workflows/test-phpstan.yml'
   push:
     branches:
-      - develop
+      - dev
     paths:
       - '**.php'
       - 'composer.*'
-      - 'rector.php'
-      - '.github/workflows/rector.yml'
+      - 'phpstan*'
+      - '.github/workflows/test-phpstan.yml'
 
 jobs:
   build:
-    name: PHP ${{ matrix.php-versions }} Rector Analysis
+    name: PHP ${{ matrix.php-versions }} Static Analysis
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
     strategy:
@@ -32,12 +32,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set up PHP
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           tools: phpstan
-          extensions: intl, json, mbstring, xml
+          extensions: intl
           coverage: none
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -53,7 +53,17 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Install dependencies
+      - name: Create PHPStan cache directory
+        run: mkdir -p build/phpstan
+
+      - name: Cache PHPStan results
+        uses: actions/cache@v3
+        with:
+          path: build/phpstan
+          key: ${{ runner.os }}-phpstan-${{ github.sha }}
+          restore-keys: ${{ runner.os }}-phpstan-
+
+      - name: Install Dependencies
         run: |
           if [ -f composer.lock ]; then
             composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
@@ -61,7 +71,5 @@ jobs:
             composer update --no-progress --no-interaction --prefer-dist --optimize-autoloader
           fi
 
-      - name: Analyze for refactoring
-        run: |
-          composer global require --dev rector/rector:^0.13.3
-          rector process --dry-run --no-progress-bar
+      - name: Run static analysis
+        run: vendor/bin/phpstan analyze
