@@ -44,7 +44,7 @@ if [ "$FILES" != "" ]; then
     fi
 
     if [ $? != 0 ]; then
-        echo "Some files are not following the coding standards. Please fix them before commit (try 'composer style')."
+        echo "Some files are not following the coding standards. Please fix them before commit (try 'composer cs-fix')."
         exit 1
     fi
 fi

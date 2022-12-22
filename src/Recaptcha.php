@@ -8,7 +8,7 @@ use PHPDevsr\Recaptcha\Config\Recaptcha as RecaptchaConfig;
 /**
  * CodeIgniter 4 Recaptcha Library
  *
- * @see    https://github.com/PHPDevsr/reCaptcha-Codeigniter4
+ * @see https://github.com/PHPDevsr/reCaptcha-Codeigniter4
  * @see https://www.google.com/recaptcha/admin
  */
 class Recaptcha

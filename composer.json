@@ -23,7 +23,7 @@
     "require-dev": {
         "codeigniter4/devkit": "^1.0",
         "codeigniter4/framework": "^4.2",
-        "rector/rector": "^0.14.0"
+        "rector/rector": "^0.15.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -57,9 +57,9 @@
             "@phpstan",
             "@rector"
         ],
-        "cs-fix": "php-cs-fixer fix --ansi --verbose --diff --using-cache=no",
-        "cs": "php-cs-fixer fix --ansi --verbose --dry-run --diff --using-cache=no",
-        "rector": "vendor/bin/rector process src --dry-run",
+        "cs-fix": "vendor/bin/php-cs-fixer fix --ansi --verbose --diff --using-cache=no",
+        "cs": "vendor/bin/php-cs-fixer fix --ansi --verbose --dry-run --diff --using-cache=no",
+        "rector": "vendor/bin/rector process --dry-run",
         "phpstan": "bash -c \"XDEBUG_MODE=off phpstan analyse\"",
         "test": "phpunit"
     }
