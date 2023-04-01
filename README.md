@@ -1,3 +1,11 @@
+[![PHPUnit](https://github.com/PHPDevsr/reCaptcha-Codeigniter4/workflows/PHPUnit/badge.svg)](https://github.com/PHPDevsr/reCaptcha-Codeigniter4/actions/workflows/test-phpunit.yml)
+[![PHPStan](https://github.com/PHPDevsr/reCaptcha-Codeigniter4/actions/workflows/test-phpstan.yml/badge.svg)](https://github.com/PHPDevsr/reCaptcha-Codeigniter4/actions/workflows/test-phpstan.yml)
+[![Coverage Status](https://coveralls.io/repos/github/PHPDevsr/reCaptcha-Codeigniter4/badge.svg?branch=dev)](https://coveralls.io/github/PHPDevsr/reCaptcha-Codeigniter4?branch=dev)
+[![Downloads](https://poser.pugx.org/phpdevsr/recaptcha-codeigniter4/downloads)](https://packagist.org/packages/phpdevsr/recaptcha-codeigniter4)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/PHPDevsr/reCaptcha-Codeigniter4)](https://packagist.org/packages/phpdevsr/recaptcha-codeigniter4)
+[![GitHub stars](https://img.shields.io/github/stars/PHPDevsr/reCaptcha-Codeigniter4)](https://packagist.org/packages/phpdevsr/recaptcha-codeigniter4)
+[![GitHub license](https://img.shields.io/github/license/PHPDevsr/reCaptcha-Codeigniter4)](https://github.com/PHPDevsr/reCaptcha-Codeigniter4/blob/dev/LICENSE)
+
 # reCAPTCHA Codeigniter 4
 Free to Use Library reCAPTCHA v2 for Codeigniter 4.
 
@@ -16,6 +24,7 @@ To use reCAPTCHA, you need to [sign up for an API key pair][4] for your site. Th
 install with composer
 ```bash
 $ composer require phpdevsr/recaptcha-codeigniter4
+$ php spark config:publish
 ```
 
 # Usage
@@ -27,7 +36,7 @@ $ composer require phpdevsr/recaptcha-codeigniter4
 
 require 'vendor/autoload.php';
 
-use PHPDevsr\Recaptcha\Config\Recaptcha as RecaptchaConfig;
+use Config\Recaptcha as RecaptchaConfig;
 use PHPDevsr\Recaptcha\Recaptcha;
 
 class Example
@@ -50,10 +59,6 @@ class Example
     {
         // Set Config
         $this->config = new RecaptchaConfig();
-
-        $this->config->recaptchaSiteKey   = 'your-site-key';
-        $this->config->recaptchaSecretKey = 'your-secret-key';
-        $this->config->recaptchaLang      = 'id';
 
         $this->recaptcha = new Recaptcha($this->config);
     }
