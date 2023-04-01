@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use CodeIgniter\CodingStandard\CodeIgniter4;
 use Nexus\CsConfig\Factory;
 use PhpCsFixer\Finder;
@@ -11,7 +13,10 @@ $finder = Finder::create()
         __DIR__ . '/tests/',
     ])
     ->exclude('build')
-    ->append([__FILE__]);
+    ->append([
+        __FILE__,
+        __DIR__ . '/rector.php',
+    ]);
 
 $overrides = [];
 

@@ -2,6 +2,8 @@
 
 namespace PHPDevsr\Recaptcha;
 
+use CodeIgniter\Config\Services;
+use CodeIgniter\HTTP\CURLRequest;
 use Exception;
 use PHPDevsr\Recaptcha\Config\Recaptcha as RecaptchaConfig;
 
@@ -18,6 +20,7 @@ class Recaptcha
     protected const api_url         = 'https://www.google.com/recaptcha/api.js';
 
     protected RecaptchaConfig $config;
+    protected CURLRequest $curl;
 
     public function __construct(?RecaptchaConfig $config = null)
     {
@@ -29,6 +32,17 @@ class Recaptcha
         if (empty($this->config->recaptchaSiteKey) || empty($this->config->recaptchaSecretKey)) {
             throw new Exception('To use reCAPTCHA you must get an API key from ' . self::sign_up_url);
         }
+
+        $this->curl = Services::curlrequest([
+            'timeout' => 5,
+            'headers' => [
+                'User-Agent' => 'PHPDevsr',
+            ],
+            'http_errors'     => false,
+            'allow_redirects' => true,
+            'verify'          => true,
+            'version'         => 2.0,
+        ]);
     }
 
     /**
@@ -36,30 +50,14 @@ class Recaptcha
      *
      * @param array $data Data
      *
-     * @return bool|string
-     *
      * @codeCoverageIgnore
      */
     protected function _submitHTTPGet(array $data = [])
     {
-        $url = $data !== [] ? self::site_verify_url . '?' . http_build_query($data) : self::site_verify_url;
+        $query       = $data !== [] ? ['query' => $data] : [];
+        $responseObj = $this->curl->get(self::site_verify_url, $query);
 
-        if (ini_get('allow_url_fopen')) {
-            return file_get_contents($url);
-        }
-
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        return $response;
+        return $responseObj->getBody();
     }
 
     /**
@@ -94,7 +92,7 @@ class Recaptcha
         // get reCAPTCHA server response
         $responses = json_decode($getResponse, true);
 
-        if (isset($responses['success']) && $responses['success'] === true) {
+        if (array_key_exists('success', $responses) && $responses['success'] === true) {
             $status = true;
         } else {
             $status = false;
