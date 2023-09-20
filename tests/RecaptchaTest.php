@@ -31,7 +31,8 @@ final class RecaptchaTest extends CIUnitTestCase
         $config->recaptchaSecretKey = '';
         $config->recaptchaLang      = 'id';
 
-        new Recaptcha($config);
+        $recaptcha = new Recaptcha($config);
+        $recaptcha->verifyResponse('justtestverify');
     }
 
     public function testGetScriptTagDefault()
@@ -60,5 +61,41 @@ final class RecaptchaTest extends CIUnitTestCase
         $recaptcha = new Recaptcha($config);
 
         $this->assertSame($expected, $recaptcha->getWidget());
+    }
+
+    public function testGetScriptTagServiceDefault()
+    {
+        $expected = '<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=onload&hl=en" defer></script>';
+
+        $recaptcha = service('recaptcha');
+
+        $this->assertSame($expected, $recaptcha->getScriptTag());
+    }
+
+    public function testGetWidgetTagServiceDefault()
+    {
+        $expected = '<div class="g-recaptcha" data-sitekey="" data-theme="light" data-type="image" data-size="normal" loading="lazy"></div>';
+
+        $recaptcha = service('recaptcha');
+
+        $this->assertSame($expected, $recaptcha->getWidget());
+    }
+
+    public function testGetScriptTagHelperDefault()
+    {
+        $expected = '<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=onload&hl=en" defer></script>';
+
+        helper('recaptcha');
+
+        $this->assertSame($expected, getScriptTag());
+    }
+
+    public function testGetWidgetTagHelperDefault()
+    {
+        $expected = '<div class="g-recaptcha" data-sitekey="" data-theme="light" data-type="image" data-size="normal" loading="lazy"></div>';
+
+        helper('recaptcha');
+
+        $this->assertSame($expected, getWidget());
     }
 }

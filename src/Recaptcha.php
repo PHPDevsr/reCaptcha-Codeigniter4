@@ -36,10 +36,6 @@ class Recaptcha
         // Set Config
         $this->config = $config;
 
-        if ($this->config->recaptchaSiteKey === '' || $this->config->recaptchaSecretKey === '') {
-            throw new Exception('To use reCAPTCHA you must get an API key from ' . self::sign_up_url);
-        }
-
         $this->curl = Services::curlrequest([
             'timeout' => 5,
             'headers' => [
@@ -78,6 +74,10 @@ class Recaptcha
      */
     public function verifyResponse($response, $remoteIp = null)
     {
+        if ($this->config->recaptchaSiteKey === '' || $this->config->recaptchaSecretKey === '') {
+            throw new Exception('To use reCAPTCHA you must get an API key from ' . self::sign_up_url);
+        }
+
         $remoteIp = (empty($remoteIp)) ? $_SERVER['REMOTE_ADDR'] : $remoteIp;
 
         // Discard empty solution submissions
