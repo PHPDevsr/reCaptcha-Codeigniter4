@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of PHPDevsr/recaptcha-codeigniter4.
+ *
+ * (c) 2023 Denny Septian Panggabean <xamidimura@gmail.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace PHPDevsr\Recaptcha;
 
 use CodeIgniter\Config\Services;
@@ -22,14 +31,12 @@ class Recaptcha
     protected RecaptchaConfig $config;
     protected CURLRequest $curl;
 
-    public function __construct(?RecaptchaConfig $config = null)
+    public function __construct(RecaptchaConfig $config)
     {
         // Set Config
-        if (null !== $config) {
-            $this->config = $config;
-        }
+        $this->config = $config;
 
-        if (empty($this->config->recaptchaSiteKey) || empty($this->config->recaptchaSecretKey)) {
+        if ($this->config->recaptchaSiteKey === '' || $this->config->recaptchaSecretKey === '') {
             throw new Exception('To use reCAPTCHA you must get an API key from ' . self::sign_up_url);
         }
 
@@ -71,7 +78,7 @@ class Recaptcha
      */
     public function verifyResponse($response, $remoteIp = null)
     {
-        $remoteIp = (! empty($remoteIp)) ? $remoteIp : $_SERVER['REMOTE_ADDR'];
+        $remoteIp = (empty($remoteIp)) ? $_SERVER['REMOTE_ADDR'] : $remoteIp;
 
         // Discard empty solution submissions
         if (empty($response)) {

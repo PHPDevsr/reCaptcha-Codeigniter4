@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of PHPDevsr/recaptcha-codeigniter4.
+ *
+ * (c) 2023 Denny Septian Panggabean <xamidimura@gmail.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace PHPDevsr\Recaptcha\Commands;
 
 use CodeIgniter\CLI\BaseCommand;
@@ -42,7 +51,7 @@ class ConfigPublish extends BaseCommand
     {
         $this->sourcePath = realpath(__DIR__ . '/../');
 
-        if ($this->sourcePath === '/' || empty($this->sourcePath)) {
+        if (in_array($this->sourcePath, ['/', ''], true) || $this->sourcePath === false) {
             CLI::error('Unable to determine the correct source directory. Bailing.');
 
             exit();

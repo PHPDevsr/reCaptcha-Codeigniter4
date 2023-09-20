@@ -21,9 +21,13 @@
         "php": "^7.4 || ^8.0"
     },
     "require-dev": {
-        "codeigniter4/devkit": "^1.0",
         "codeigniter4/framework": "^4.3",
-        "rector/rector": "^0.18"
+        "codeigniter/coding-standard": "^1.7",
+        "nexusphp/tachycardia": "^1.4",
+        "php-coveralls/php-coveralls": "^2.5",
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^9.6",
+        "rector/rector": "0.18.3"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of PHPDevsr/recaptcha-codeigniter4.
+ *
+ * (c) 2023 Denny Septian Panggabean <xamidimura@gmail.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace Tests;
 
 use CodeIgniter\Test\CIUnitTestCase;
@@ -17,7 +26,12 @@ final class RecaptchaTest extends CIUnitTestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('To use reCAPTCHA you must get an API key from https://www.google.com/recaptcha/admin');
 
-        new Recaptcha();
+        $config                     = new RecaptchaConfig();
+        $config->recaptchaSiteKey   = '';
+        $config->recaptchaSecretKey = '';
+        $config->recaptchaLang      = 'id';
+
+        new Recaptcha($config);
     }
 
     public function testGetScriptTagDefault()
