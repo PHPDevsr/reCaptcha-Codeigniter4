@@ -14,7 +14,6 @@ namespace PHPDevsr\Recaptcha;
 use CodeIgniter\Config\Services;
 use CodeIgniter\HTTP\CURLRequest;
 use Exception;
-use PHPDevsr\Recaptcha\Config\Recaptcha as RecaptchaConfig;
 
 /**
  * CodeIgniter 4 Recaptcha Library
@@ -28,7 +27,7 @@ class Recaptcha
     protected const site_verify_url = 'https://www.google.com/recaptcha/api/siteverify';
     protected const api_url         = 'https://www.google.com/recaptcha/api.js';
 
-    protected RecaptchaConfig $config;
+    protected object $config;
     protected CURLRequest $curl;
 
     /**
