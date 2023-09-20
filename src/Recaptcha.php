@@ -31,7 +31,12 @@ class Recaptcha
     protected RecaptchaConfig $config;
     protected CURLRequest $curl;
 
-    public function __construct(RecaptchaConfig $config)
+    /**
+     * Setup Params from Config
+     *
+     * @param object $config
+     */
+    public function __construct($config)
     {
         // Set Config
         $this->config = $config;
