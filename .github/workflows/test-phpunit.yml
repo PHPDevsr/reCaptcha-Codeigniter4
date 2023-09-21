@@ -79,12 +79,8 @@ jobs:
         run: |
           vendor/bin/phpcov merge --clover build/logs/clover.xml build/cov
 
-  coveralls:
-    needs: [main]
-    name: Coveralls Finished
-    runs-on: ubuntu-latest
-    steps:
-      - name: Upload coverage to Coveralls
+      - if: matrix.php-versions == '8.1'
+        name: Upload coverage to Coveralls
         run: |
           php-coveralls --verbose --exclude-no-stmt --ansi
         env:
