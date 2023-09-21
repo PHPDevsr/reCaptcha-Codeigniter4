@@ -67,6 +67,8 @@
 	</extensions>
 
 	<logging>
+		<log type="coverage-clover" target="build/logs/clover.xml"/>
+		<log type="coverage-php" target="build/cov/coverage.cov"/>
 		<testdoxHtml outputFile="build/phpunit/testdox.html"/>
 		<testdoxText outputFile="build/phpunit/testdox.txt"/>
 		<junit outputFile="build/phpunit/junit.xml"/>
