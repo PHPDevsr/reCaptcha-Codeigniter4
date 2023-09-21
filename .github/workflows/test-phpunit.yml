@@ -68,7 +68,7 @@ jobs:
           fi
 
       - name: Test with PHPUnit
-        run: vendor/bin/phpunit --verbose --coverage-text --testsuite main
+        run: vendor/bin/phpunit --verbose --coverage-text --coverage-clover build/logs/clover.xml --coverage-php build/cov/coverage.cov --testsuite main
         env:
           TERM: xterm-256color
           TACHYCARDIA_MONITOR_GA: enabled
@@ -86,7 +86,6 @@ jobs:
     steps:
       - name: Upload coverage to Coveralls
         run: |
-          sudo phive --no-progress install --global --trust-gpg-keys E82B2FB314E9906E php-coveralls
           vendor/bin/php-coveralls --verbose --exclude-no-stmt --ansi
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
