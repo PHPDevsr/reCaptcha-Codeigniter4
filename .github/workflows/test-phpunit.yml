@@ -35,7 +35,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -77,21 +77,16 @@ jobs:
         name: Run Coveralls
         continue-on-error: true
         run: |
-          sudo phive --no-progress install --global --trust-gpg-keys E82B2FB314E9906E php-coveralls
-          php-coveralls --verbose --coverage_clover=build/phpunit/clover.xml --json_path build/phpunit/coveralls-upload.json
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_PARALLEL: true
-          COVERALLS_FLAG_NAME: PHP ${{ matrix.php-versions }}
+          vendor/bin/phpcov merge --clover build/logs/clover.xml build/cov
 
   coveralls:
     needs: [main]
     name: Coveralls Finished
     runs-on: ubuntu-latest
     steps:
-      - name: Upload Coveralls results
-        uses: coverallsapp/github-action@master
-        continue-on-error: true
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel-finished: true
+      - name: Upload coverage to Coveralls
+        run: |
+          sudo phive --no-progress install --global --trust-gpg-keys E82B2FB314E9906E php-coveralls
+          vendor/bin/php-coveralls --verbose --exclude-no-stmt --ansi
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
