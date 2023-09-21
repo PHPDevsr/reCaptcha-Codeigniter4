@@ -86,6 +86,8 @@ jobs:
     steps:
       - name: Upload coverage to Coveralls
         run: |
-          vendor/bin/php-coveralls --verbose --exclude-no-stmt --ansi
+          php-coveralls --verbose --exclude-no-stmt --ansi
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: PHP ${{ matrix.php-versions }}
