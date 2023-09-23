@@ -1,0 +1,28 @@
+name: Check conflict branch in PR
+on:
+  schedule:
+    - cron: '*/20 * * * *' # Run at every 20 minutes
+
+jobs:
+  build:
+    name: Check conflict branch in PR
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check conflict branch in PR
+        uses: PHPDevsr/check-conflict-action@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          label: stale
+          comment: |
+            :wave: Hi, @authorTarget!
+
+            We detected conflicts in your PR against the base branch :speak_no_evil:
+            You may want to sync :arrows_counterclockwise: your branch with upstream!
+
+            Ref: [Syncing Your Branch](https://github.com/codeigniter4/CodeIgniter4/blob/develop/contributing/workflow.md#pushing-your-branch)
