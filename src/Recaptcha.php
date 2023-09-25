@@ -14,6 +14,7 @@ namespace PHPDevsr\Recaptcha;
 use CodeIgniter\Config\Services;
 use CodeIgniter\HTTP\CURLRequest;
 use Exception;
+use stdClass;
 
 /**
  * CodeIgniter 4 Recaptcha Library
@@ -37,8 +38,12 @@ class Recaptcha
      */
     public function __construct($config)
     {
+        $this->config = new stdClass();
+
         // Set Config
-        $this->config = $config;
+        $this->config->recaptchaSiteKey   = env('recaptcha.recaptchaSiteKey') ?? $config->recaptchaSiteKey;
+        $this->config->recaptchaSecretKey = env('recaptcha.recaptchaSecretKey') ?? $config->recaptchaSecretKey;
+        $this->config->recaptchaLang      = env('recaptcha.recaptchaLang') ?? $config->recaptchaLang;
 
         $this->curl = Services::curlrequest([
             'timeout' => 5,
