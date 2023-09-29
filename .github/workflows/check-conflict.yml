@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Check conflict branch in PR
-        uses: PHPDevsr/check-conflict-action@v1.0.0
+        uses: PHPDevsr/check-conflict-action@v1.1.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           label: stale
