@@ -29,6 +29,14 @@ $ php spark config:publish
 
 # Usage
 
+Since `v2.1.0`, environment config can be use for multiple config with `.env`
+
+```env
+recaptcha.recaptchaSiteKey
+recaptcha.recaptchaSecretKey
+recaptcha.recaptchaLang
+```
+
 ## Initialization
 
 ```php
@@ -61,6 +69,64 @@ class Example
         $this->config = new RecaptchaConfig();
 
         $this->recaptcha = new Recaptcha($this->config);
+    }
+}
+```
+
+Since `v2.0.0`, you can using helper
+
+```php
+<?php
+
+namespace App\Controllers;
+
+class Home extends BaseController
+{
+    public function index(): string
+    {
+        helper('recaptcha');
+
+        $data = [
+            'scriptTag' => getScriptTag(),
+            'widgetTag' => getWidget(),
+        ];
+
+        $captcha = $this->request->getPost('g-recaptcha-response');
+        $response = verifyResponse($captcha);
+
+        if (isset($response['success']) and $response['success'] === true) {
+            echo "You got it!";
+        }
+
+        return view('welcome_message', $data);
+    }
+}
+```
+or directly use `service`
+```php
+<?php
+
+namespace App\Controllers;
+
+class Home extends BaseController
+{
+    public function index(): string
+    {
+        $recaptcha = service('recaptcha');
+
+        $data = [
+            'scriptTag' => $recaptcha->getScriptTag(),
+            'widgetTag' => $recaptcha->getWidget(),
+        ];
+
+        $captcha = $this->request->getPost('g-recaptcha-response');
+        $response = $recaptcha->verifyResponse($captcha);
+
+        if (isset($response['success']) and $response['success'] === true) {
+            echo "You got it!";
+        }
+
+        return view('welcome_message', $data);
     }
 }
 ```
