@@ -28,6 +28,7 @@ use Rector\CodeQuality\Rector\FuncCall\SimplifyRegexPatternRector;
 use Rector\CodeQuality\Rector\FuncCall\SimplifyStrposLowerRector;
 use Rector\CodeQuality\Rector\FunctionLike\SimplifyUselessVariableRector;
 use Rector\CodeQuality\Rector\If_\CombineIfRector;
+use Rector\CodeQuality\Rector\If_\CompleteMissingIfElseBracketRector;
 use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\CodeQuality\Rector\If_\ShortenElseIfRector;
 use Rector\CodeQuality\Rector\If_\SimplifyIfElseToTernaryRector;
@@ -159,6 +160,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->rule(SimplifyRegexPatternRector::class);
     $rectorConfig->rule(SimplifyStrposLowerRector::class);
     $rectorConfig->rule(CombineIfRector::class);
+    $rectorConfig->rule(CompleteMissingIfElseBracketRector::class);
     $rectorConfig->rule(ShortenElseIfRector::class);
     $rectorConfig->rule(SimplifyIfElseToTernaryRector::class);
     $rectorConfig->rule(SimplifyIfReturnBoolRector::class);
