@@ -45,7 +45,6 @@ use Rector\CodingStyle\Rector\ClassMethod\FuncGetArgsToVariadicParamRector;
 use Rector\CodingStyle\Rector\ClassMethod\MakeInheritedMethodVisibilitySameAsParentRector;
 use Rector\CodingStyle\Rector\FuncCall\CountArrayToEmptyArrayComparisonRector;
 use Rector\Config\RectorConfig;
-use Rector\Core\ValueObject\PhpVersion;
 use Rector\DeadCode\Rector\Array_\RemoveDuplicatedArrayKeyRector;
 use Rector\DeadCode\Rector\Assign\RemoveDoubleAssignRector;
 use Rector\DeadCode\Rector\Assign\RemoveUnusedVariableAssignRector;
@@ -78,6 +77,7 @@ use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Privatization\Rector\Property\PrivatizeFinalClassPropertyRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
+use Rector\ValueObject\PhpVersion;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->sets([
