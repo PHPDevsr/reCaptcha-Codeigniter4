@@ -171,11 +171,7 @@ class Recaptcha
         $indexResult = 1;
 
         foreach ($result as $key => $value) {
-            if ($countedResult === $indexResult) {
-                $html .= sprintf('%s="%s"', $key, $value);
-            } else {
-                $html .= sprintf('%s="%s" ', $key, $value);
-            }
+            $html .= $countedResult === $indexResult ? sprintf('%s="%s"', $key, $value) : sprintf('%s="%s" ', $key, $value);
 
             $indexResult++;
         }
